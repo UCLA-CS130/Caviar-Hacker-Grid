@@ -11,6 +11,7 @@
 
 #include <boost/asio.hpp>
 #include "../webserver.h"
+#include "fileService.h"
 #include "server.h"
 #include "http.h"
 #include "http_echo.h"
@@ -75,6 +76,9 @@ void Session::do_read() {
               else if((i = option.second.options_->find("root")) != option.second.options_->end()) {
                 printf("you should serve files from %s!\n", std::accumulate(i->second.begin(), i->second.end(), std::string("")).c_str());
                 builder = new http::HTTPResponseBuilderFile(new http::HTTPResponse(), data_);
+		FileServicer fser(std::accumulate(i->second.begin(), i->second.end(), std::string("")).c_str());
+		std::string content = fser.tryOpen();
+		fser.closeFs();
               }
               else {
                 // invalid config
