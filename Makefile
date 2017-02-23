@@ -6,8 +6,8 @@ GMOCK_DIR=googletest/googlemock
 GTEST_FLAGS=-std=c++11 -isystem $(GTEST_DIR)/include 
 GMOCK_FLAGS=-isystem $(GMOCK_DIR)/include
 CXXFLAGS= -g $(CXXOPTIMIZE) -Wall -Werror -pedantic -std=c++11 $(BOOST)
-CLASSES=nginx-configparser/config_parser server/server webserver server/httpRequest webserver_options server/http server/http_404 server/http_echo server/http_file filesystem/file_opener
-GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc webserver_options.cc http.cc http_404.cc http_echo.cc http_file.cc file_opener.cc
+CLASSES=nginx-configparser/config_parser server/server webserver server/httpRequest server/httpResponse webserver_options server/http server/http_404 server/http_echo server/http_file filesystem/file_opener server/echo_handler
+GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc webserver_options.cc http.cc http_404.cc http_echo.cc http_file.cc file_opener.cc echo_handler.cc
 UTIL_CLASSES=$(CLASSES:=.cc)
 TESTS=$(CLASSES:=_test)
 
@@ -25,6 +25,7 @@ filesystem/file_opener.cc: filesystem/file_opener.h
 server/file_handler.cc: server/file_handler.h
 server/http.cc: server/http.h
 server/httpResponse.cc: server/httpResponse.h
+server/echo_handler.cc: server/echo_handler.h
 
 webserver: $(UTIL_CLASSES)
 	$(CXX) -o $@ $^ $(CXXFLAGS) main.cc
