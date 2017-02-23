@@ -6,8 +6,13 @@ GMOCK_DIR=googletest/googlemock
 GTEST_FLAGS=-std=c++11 -isystem $(GTEST_DIR)/include 
 GMOCK_FLAGS=-isystem $(GMOCK_DIR)/include
 CXXFLAGS= -g $(CXXOPTIMIZE) -Wall -Werror -pedantic -std=c++11 $(BOOST)
+<<<<<<< HEAD
 CLASSES=nginx-configparser/config_parser server/server webserver server/httpRequest server/httpResponse webserver_options server/http server/http_404 server/http_echo server/http_file filesystem/file_opener server/echo_handler
 GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc webserver_options.cc http.cc http_404.cc http_echo.cc http_file.cc file_opener.cc echo_handler.cc
+=======
+CLASSES=nginx-configparser/config_parser server/server webserver server/httpRequest server/httpResponse webserver_options server/http filesystem/file_opener server/file_handler
+GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc webserver_options.cc http.cc http_404.cc http_echo.cc http_file.cc file_opener.cc
+>>>>>>> 2705f7bc5d3db2d125a866b9fc6e332dfa134d37
 UTIL_CLASSES=$(CLASSES:=.cc)
 TESTS=$(CLASSES:=_test)
 
@@ -60,6 +65,7 @@ clean:
 	rm -rf server/*.a server/*.gcda server/*.gcno server/*.gcov
 	rm -rf server/*.a server/*.gcda server/*.gcno server/*.gcov
 
+<<<<<<< HEAD
 
 
 #individual tests for the new interfaces, needs to be changed
@@ -77,3 +83,5 @@ FILE_HANDLER_UTIL=server/http.cc server/httpRequest.cc server/httpResponse.cc ng
 file_handler_test: server/file_handler.cc libgtest.a libgmock.a
 	$(CXX) $(GTEST_FLAGS) $(GMOCK_FLAGS) -pthread server/file_handler.cc $(FILE_HANDLER_UTIL) $(GMOCK_DIR)/src/gmock_main.cc server/file_handler_test.cc libgmock.a $(BOOST) -o file_handler_test
 	./file_handler_test
+=======
+>>>>>>> 2705f7bc5d3db2d125a866b9fc6e332dfa134d37
