@@ -11,6 +11,7 @@
 #include <map>
 
 #include <boost/asio.hpp>
+#include <boost/threadpool.hpp>
 
 #include "../http/httpRequest.h"
 #include "../http/http.h"
@@ -47,6 +48,9 @@ private:
   void do_accept(HandlerConfiguration* handler, ServerStatus* status);
   tcp::acceptor acceptor_;
   tcp::socket socket_;
+  boost::threadpool::pool tp;
+  int threadsOccupied = 0;
+  int threadsSupported = 2;//std::thread::hardware_concurrency()
 };
 
 
