@@ -125,6 +125,11 @@ ENV/
 
 # Mac build process
 *.dSYM
+.DS_Store
+
+# Vim files
+.swp
+
 # Exectables for this project
 config_parser
 config_parser_test

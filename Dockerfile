@@ -10,5 +10,5 @@ COPY . /opt/webserver
 
 RUN make clean && make webserver
 
-CMD ["./webserver", "test_config"]
+CMD tar -cf - webserver
 
