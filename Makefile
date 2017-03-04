@@ -11,7 +11,7 @@ GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc httpMutableRequest.c
 UTIL_CLASSES=$(CLASSES:=.cc)
 TESTS=$(CLASSES:=_test)
 
-.PHONY: all clean test gcov
+.PHONY: all clean test gcov docker
 all: webserver
 
 gcov: GTEST_FLAGS += -fprofile-arcs -ftest-coverage
@@ -57,6 +57,16 @@ test: $(TESTS)
 
 integration: webserver
 	python integration_test.py
+
+docker:
+	rm -f deploy/webserver
+	docker build -t httpserver.build .
+	docker run httpserver.build > deploy/binary.tar
+	cd deploy && tar -xvf binary.tar
+	rm -f deploy/binary.tar
+	cd deploy && \
+	docker build -t httpserver --file ./Dockerfile.run .
+	
 
 clean:
 	find . -type f -iname \*.o -delete
