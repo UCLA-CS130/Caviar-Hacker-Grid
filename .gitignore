@@ -128,7 +128,7 @@ ENV/
 .DS_Store
 
 # Vim files
-.swp
+*.swp
 
 # Exectables for this project
 config_parser
