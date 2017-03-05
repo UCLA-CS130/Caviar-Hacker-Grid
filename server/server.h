@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <mutex>
 
 #include <boost/asio.hpp>
 
@@ -53,9 +54,17 @@ private:
 class ServerStatus {
 public:
   struct Status {
+    Status(){
+      stsMx = new std::mutex;			
+    }
+    ~Status(){
+      delete stsMx;
+    } 
     std::map<std::string, int> RequestCountByURL_;
     std::map<int, int> ResponseCountByCode_;
     std::map<std::string, std::string> RequestHandlers_;
+
+    std::mutex* stsMx;
 
     std::string defaultHandler_;
     int requests_ = 0;
@@ -65,6 +74,7 @@ public:
   Status GetStatus(); 
   void LogIncomingRequest(std::string path, int RespCode);
   void SetDefaultHandler(std::string handler);
+
 private:
   Status Status_;
 };
