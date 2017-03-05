@@ -141,5 +141,6 @@ bool WebServer::run_server() {
     printf("Exception %s\n", e.what());
     return false;
   }
+  status_.GetStatus().destroyMutex();
   return true;
 }

@@ -55,11 +55,12 @@ class ServerStatus {
 public:
   struct Status {
     Status(){
+      printf("Mutex Created.\n");
       stsMx = new std::mutex;			
     }
-    ~Status(){
+    void destroyMutex(){
       delete stsMx;
-    } 
+    }
     std::map<std::string, int> RequestCountByURL_;
     std::map<int, int> ResponseCountByCode_;
     std::map<std::string, std::string> RequestHandlers_;
