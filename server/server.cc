@@ -83,7 +83,11 @@ void Session::do_read() {
   } 
   else {
     // response invalid, return a 400
-    printf("$$$$$$$$$$$$$$$%s##############\n", data_.c_str());
+    if(data_.length()==0){
+      printf("Emtpy raw request. Ended the session to avoid segmentation fault!\n");
+      delete response;
+      return;
+    }
     response_string = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/html\r\n\r\n";
     status_->LogIncomingRequest(req->uri(), 400);
   }
