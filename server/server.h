@@ -11,6 +11,7 @@
 #include <map>
 
 #include <boost/asio.hpp>
+#include <boost/bind.hpp>
 
 #include "../http/httpRequest.h"
 #include "../http/http.h"
@@ -21,12 +22,11 @@ using boost::asio::ip::tcp;
 class ServerStatus;
 
 class Session
-  : public std::enable_shared_from_this<Session>
 {
 public:
-  Session(tcp::socket socket, HandlerConfiguration* handler, ServerStatus* status);
+  Session(boost::asio::io_service& io_service, HandlerConfiguration* handler, ServerStatus* status);
   void start();
-
+  tcp::socket& getSocket();
 private:
   void do_read();
 
@@ -36,17 +36,20 @@ private:
   std::string data_;
   HandlerConfiguration* handler_;
   ServerStatus* status_;
+  boost::asio::streambuf stream_buffer_;
 };
 
 class Server 
 {
 public:
   Server(boost::asio::io_service& io_service, int port, HandlerConfiguration* handler, ServerStatus* status);
-
+  void run();
 private:
-  void do_accept(HandlerConfiguration* handler, ServerStatus* status);
+  void do_accept(HandlerConfiguration* handler, ServerStatus* status,Session* new_session, const boost::system::error_code& error);
   tcp::acceptor acceptor_;
   tcp::socket socket_;
+  std::size_t NUM_OF_THREADS = 4;
+  boost::asio::io_service& io_service_;
 };
 
 
