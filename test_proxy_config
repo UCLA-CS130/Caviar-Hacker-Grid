@@ -1,0 +1,6 @@
+port 8081;
+path /proxy ProxyHandler {
+  host localhost;
+  port 8080;
+}
+default NotFoundHandler {}
