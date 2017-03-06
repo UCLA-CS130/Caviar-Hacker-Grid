@@ -1,11 +1,11 @@
 $CXX=g++
-CXXOPTIMIZE= -O2
-BOOST=-lboost_system -lboost_thread
+CXXOPTIMIZE= -O0
+BOOST=-lboost_system -lboost_thread-mt
 GTEST_DIR=googletest/googletest
 GMOCK_DIR=googletest/googlemock
 GTEST_FLAGS=-std=c++11 -isystem $(GTEST_DIR)/include 
 GMOCK_FLAGS=-isystem $(GMOCK_DIR)/include
-CXXFLAGS= -g $(CXXOPTIMIZE) -Wall -Werror -static-libgcc -static-libstdc++ -pthread -Wl,-Bstatic -pedantic -std=c++11 $(BOOST)
+CXXFLAGS= -g $(CXXOPTIMIZE) -Wall -Werror -pthread -pedantic -std=c++11 $(BOOST)
 CLASSES=nginx-configparser/config_parser server/server server/webserver http/httpRequest http/httpMutableRequest http/httpResponse http/http filesystem/file_opener handlers/file_handler handlers/echo_handler handlers/request_handler handlers/not_found_handler handlers/status_handler handlers/proxy_handler handlers/blocking_handler
 GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc httpMutableRequest.cc http.cc http_404.cc http_echo.cc http_file.cc file_opener.cc
 UTIL_CLASSES=$(CLASSES:=.cc)
@@ -15,7 +15,7 @@ TESTS=$(CLASSES:=_test)
 all: webserver
 
 gcov: GTEST_FLAGS += -fprofile-arcs -ftest-coverage
-
+docker: CXXFLAGS += -static-libgcc -static-libstdc++ -Wl,-Bstatic
 nginx-configparser/config_parser.cc: nginx-configparser/config_parser.h
 filesystem/file_opener.cc: filesystem/file_opener.h
 server/server.cc: server/server.h
