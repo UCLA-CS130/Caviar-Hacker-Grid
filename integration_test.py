@@ -8,7 +8,7 @@ import time
 
 ## Global Vars ##
 passing = True #Variable to check if all tests passed
-port = 2020;
+port = 8080;
 failedTests = []
 
 ## Formatting Functions ##
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     ## Start Server ##
     outputToNull = open(os.devnull, 'w')
     serverProcess = subprocess.Popen(['./webserver', 'test_config'], stdout=outputToNull)
-    time.sleep(5)
+    time.sleep(3)
 
 #####        
 
@@ -84,15 +84,15 @@ if __name__ == "__main__":
     def TestProxyHandler():
         nameTest("ProxyHandler")
         backend_config = (
-                'port 8080;\n'
+                'port 8081;\n'
                 'path /echo EchoHandler {}\n'
                 'default NotFoundHandler {}\n'
                 )
         proxy_config = (
-                'port 8081;\n'
+                'port 8082;\n'
                 'path /proxy ProxyHandler {\n'
                 '  host localhost;\n'
-                '  port 8080;\n'
+                '  port 8081;\n'
                 '}\n'
                 'default NotFoundHandler {}\n'
                 )
@@ -113,8 +113,8 @@ if __name__ == "__main__":
             if proxy_process.poll():
                 return fail("proxy webserver exited with status %d" % proxy_process.returncode)
 
-            backend_curl = 'curl -Is localhost:8080/echo | cat'
-            proxy_curl = 'curl -Is localhost:8081/proxy/echo | cat'
+            backend_curl = 'curl -Is localhost:8081/echo | cat'
+            proxy_curl = 'curl -Is localhost:8082/proxy/echo | cat'
 
             backend_output = subprocess.check_output(backend_curl, shell=True)
             if backend_output == "":
