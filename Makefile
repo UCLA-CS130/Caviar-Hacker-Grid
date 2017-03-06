@@ -1,6 +1,6 @@
 $CXX=g++
 CXXOPTIMIZE= -O0
-BOOST=-lboost_system -lboost_thread-mt
+BOOST=-lboost_system -lboost_thread
 GTEST_DIR=googletest/googletest
 GMOCK_DIR=googletest/googlemock
 GTEST_FLAGS=-std=c++11 -isystem $(GTEST_DIR)/include 
