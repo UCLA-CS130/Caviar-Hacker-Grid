@@ -31,7 +31,7 @@ if __name__ == "__main__":
     ## Start Server ##
     outputToNull = open(os.devnull, 'w')
     serverProcess = subprocess.Popen(['./webserver', 'test_config'], stdout=outputToNull)
-    time.sleep(3)
+    time.sleep(5)
 
 #####        
 
