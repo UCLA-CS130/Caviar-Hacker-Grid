@@ -3,7 +3,12 @@ FROM ubuntu:14.04
 MAINTAINER Richard Min <richardmin97@gmail.com>
 
 RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install vim g++ git build-essential libboost-all-dev -y
+RUN apt-get install -y libboost-all-dev make g++
 
-EXPOSE 3000
+WORKDIR /opt/webserver
+COPY . /opt/webserver
+
+RUN make clean && make webserver
+
+CMD tar -cf - webserver
+

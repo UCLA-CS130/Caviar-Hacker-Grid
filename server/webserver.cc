@@ -126,16 +126,9 @@ bool WebServer::Init() {
 bool WebServer::run_server() {
   try {
     boost::asio::io_service io_service;
-    std::vector<boost::shared_ptr<boost::thread>> tr;
     Server s(io_service, port_, &HandlerMapping_, &status_);
     printf("Running server on port %d...\n", port_);
-    for (std::size_t k = 0; k < threadsSupported; ++k) {
-      boost::shared_ptr<boost::thread> thread(new boost::thread(boost::bind(&boost::asio::io_service::run, &io_service)));
-      tr.push_back(thread);
-    }
-    //wait on threads
-    for (std::size_t k = 0; k < threadsSupported; ++k)
-      tr[k]->join();
+    s.run();
   } 
   catch (std::exception& e) {
     printf("Exception %s\n", e.what());
