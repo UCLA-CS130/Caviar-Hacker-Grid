@@ -1,7 +1,7 @@
-port 8080;  # This is also a comment.
+port 8016;
 
 path /serve StaticHandler {
-      root files_served/;
+    root files_served/;
 }
 
 path /echo EchoHandler {}
@@ -16,8 +16,5 @@ path /proxy ProxyHandler {
 path /markdown MarkdownHandler {
     root files_served/;
 }
-
-path /block BlockingHandler {}
-
 # Default response handler if no handlers match.
 default NotFoundHandler {}
