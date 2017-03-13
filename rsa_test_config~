@@ -1,4 +1,4 @@
-port 2020;  # This is also a comment.
+port 2021;  # This is also a comment.
 
 path /serve StaticHandler {
       root files_served/;
@@ -11,10 +11,6 @@ path /status StatusHandler {}
 path /proxy ProxyHandler {
 	host www.ucla.edu;
 	port 80;
-}
-
-path /cloud CloudFileHandler {
-	bucket	cs130-s3;
 }
 
 path /block BlockingHandler {}

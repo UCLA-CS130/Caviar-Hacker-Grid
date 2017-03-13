@@ -7,9 +7,12 @@ GTEST_FLAGS=-std=c++11 -isystem $(GTEST_DIR)/include
 GMOCK_FLAGS=-isystem $(GMOCK_DIR)/include
 
 CXXFLAGS= -g $(CXXOPTIMIZE) -Wall -Werror -static-libgcc -static-libstdc++ -pthread -Wl,-Bstatic -pedantic -std=c++11 $(BOOST)
-CLASSES=nginx-configparser/config_parser server/server server/webserver http/httpRequest http/httpMutableRequest http/httpResponse http/http filesystem/file_opener handlers/file_handler handlers/echo_handler handlers/request_handler handlers/not_found_handler handlers/status_handler handlers/proxy_handler handlers/blocking_handler handlers/markdown_handler handlers/cloud_file_handler
 
-GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc httpMutableRequest.cc http.cc httpResponse.cc file_opener.cc file_handler.cc echo_handler.cc request_handler.cc not_found_handler.cc status_handler.cc proxy_handler.cc blocking_handler.cc 
+CLASSES=nginx-configparser/config_parser server/server server/webserver http/httpRequest http/httpMutableRequest http/httpResponse http/http filesystem/file_opener handlers/file_handler handlers/echo_handler handlers/request_handler handlers/not_found_handler handlers/status_handler handlers/proxy_handler handlers/blocking_handler handlers/markdown_handler handlers/cloud_file_handler  handlers/rsa_handler
+
+CLASSES=nginx-configparser/config_parser server/server server/webserver http/httpRequest http/httpMutableRequest http/httpResponse http/http filesystem/file_opener handlers/file_handler handlers/echo_handler handlers/request_handler handlers/not_found_handler handlers/status_handler handlers/proxy_handler handlers/blocking_handler handlers/markdown_handler handlers/cloud_file_handler handlers/rsa_handler
+
+GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc httpMutableRequest.cc http.cc httpResponse.cc file_opener.cc file_handler.cc echo_handler.cc request_handler.cc not_found_handler.cc status_handler.cc proxy_handler.cc blocking_handler.cc rsa_handler.cc
 
 UTIL_CLASSES=$(CLASSES:=.cc)
 TESTS=$(CLASSES:=_test)
@@ -32,6 +35,7 @@ handlers/file_handler.cc: handlers/file_handler.h
 handlers/echo_handler.cc: handlers/echo_handler.h
 handlers/not_found_handler.cc: handlers/not_found_handler.h
 handlers/proxy_handler.cc: handlers/proxy_handler.h
+handlers/rsa_handler.cc: handlers/rsa_handler.h
 
 server/webserver.cc: server/webserver.h
 
@@ -70,7 +74,6 @@ docker:
 	rm -f deploy/binary.tar
 	cd deploy && \
 	docker build -t httpserver --file ./Dockerfile.run .
-	
 
 clean:
 	find . -type f -iname \*.o -delete

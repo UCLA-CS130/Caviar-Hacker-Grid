@@ -71,27 +71,27 @@ void Session::do_read() {
       RequestStatus = handler_->RequestHandlers->find(best_key)->second->HandleRequest(*req, response);
     }
     
-
     if(RequestStatus == RequestHandler::BAD_REQUEST) {
       response_string = "HTTP/1.1 500 Internal Server Error\r\nContent-Type: text/html\r\n\r\n";
+      status_->GetStatus().stsMx->lock();
       status_->LogIncomingRequest(req->uri(), 500);
+      status_->GetStatus().stsMx->unlock();
     }
     else {
       response_string = response->ToString();
+      status_->GetStatus().stsMx->lock();
       status_->LogIncomingRequest(req->uri(), response->GetStatus());
+      status_->GetStatus().stsMx->unlock();
     }
   } 
   else {
     // response invalid, return a 400
-    if(data_.length()==0){
-      printf("Emtpy raw request. Ended the session to avoid segmentation fault!\n");
-      delete response;
-      return;
-    }
     response_string = "HTTP/1.1 400 Bad Request\r\nContent-Type: text/html\r\n\r\n";
+    status_->GetStatus().stsMx->lock();
     status_->LogIncomingRequest(req->uri(), 400);
+    status_->GetStatus().stsMx->lock();
   }
-
+  
   do_write(response_string);
   delete response;
 }
@@ -123,7 +123,7 @@ Server::Server(boost::asio::io_service& io_service, int port, HandlerConfigurati
 
 void Server::do_accept(HandlerConfiguration* handler, ServerStatus* status,Session* new_session, const boost::system::error_code& error)
 {
-  if(!error){
+ if(!error){
     new_session->start();
     new_session = new Session(this->io_service_,handler,status);
     acceptor_.async_accept(new_session->getSocket(),
@@ -148,7 +148,9 @@ void Server::run(){
 }
 
 void ServerStatus::AddHandler(std::string path, std::string handler) {
+  Status_.stsMx->lock();
   Status_.RequestHandlers_.insert(std::make_pair(path, handler));
+  Status_.stsMx->unlock();
 }
 
 ServerStatus::Status ServerStatus::GetStatus() {
@@ -156,6 +158,7 @@ ServerStatus::Status ServerStatus::GetStatus() {
 }
 
 void ServerStatus::LogIncomingRequest(std::string url, int RespCode) {
+  Status_.stsMx->lock();
   auto RespCodeCount = Status_.ResponseCountByCode_.insert(std::make_pair(RespCode, 1));
   if (RespCodeCount.second == false) { // The particular response code is already in the map
     RespCodeCount.first->second++;
@@ -165,10 +168,12 @@ void ServerStatus::LogIncomingRequest(std::string url, int RespCode) {
   if (URLCodeCount.second == false) { // The particular url is already in the map
     URLCodeCount.first->second++;
   }
-
   Status_.requests_++;
+  Status_.stsMx->unlock();
 }
 
 void ServerStatus::SetDefaultHandler(std::string handler) {
+  Status_.stsMx->lock();
   Status_.defaultHandler_ = handler;
+  Status_.stsMx->unlock();
 }

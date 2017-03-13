@@ -21,6 +21,7 @@ std::string WebServer::ToString() const {
 }
 
 bool WebServer::AddHandler(std::string path, std::string HandlerName, NginxConfig* config) {
+
   auto handler = RequestHandler::CreateByName(HandlerName.c_str());
   if(handler == nullptr) {
     printf("Invalid Handler %s\n", HandlerName.c_str());
@@ -31,14 +32,11 @@ bool WebServer::AddHandler(std::string path, std::string HandlerName, NginxConfi
     statusHandler->InitStatus(&status_);
     // handler = f;
   }
-
   RequestHandler::Status s = handler->Init(path, *config);
-  
   if(s == RequestHandler::INVALID_CONFIG) {
     printf("Error initializing Handler %s due to invalid config %s\n", HandlerName.c_str(), config->ToString().c_str());
     return false;
   }
-
   printf("Registered Handler %s to path %s\n", HandlerName.c_str(), path.c_str());
   auto res = HandlerMapping_.RequestHandlers->insert(std::make_pair(path, handler));
   if(res.second == false) {
@@ -124,6 +122,7 @@ bool WebServer::Init() {
 
 //Modeled after team AAAA's class example and this stack overflow page:
 bool WebServer::run_server() {
+  printf("Starting Server...");
   try {
     boost::asio::io_service io_service;
     Server s(io_service, port_, &HandlerMapping_, &status_);
@@ -134,5 +133,6 @@ bool WebServer::run_server() {
     printf("Exception %s\n", e.what());
     return false;
   }
+  status_.GetStatus().destroyMutex();
   return true;
 }

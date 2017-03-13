@@ -18,13 +18,14 @@ RequestHandler::Status StatusHandler::HandleRequest(const Request& request,
   if (status_ == nullptr) {
     return RequestHandler::MISCONFIGURED_HANDLER;
   }
+  //status_->Status_.stsMx->lock();
 
   ServerStatus::Status status = status_->GetStatus();
-
-
   response->SetStatus(Response::OK);
   response->AddHeader("Content-Type", http::mime_type::ContentTypeAsString(http::mime_type::CONTENT_TYPE_TEXT_HTML));
   response->SetBody(StatusToHtml(status));
+
+  //status_->Status_.stsMx->unlock();
   return OK;
 }
 
@@ -33,15 +34,17 @@ RequestHandler::Status StatusHandler::InitStatus(ServerStatus* status) {
   if (status == nullptr) {
     return RequestHandler::MISCONFIGURED_HANDLER;
   }
+  status->GetStatus().stsMx->lock();
   status_ = status;
+  status->GetStatus().stsMx->unlock();
   return OK;
 }
 
 
 
 std::string StatusHandler::StatusToHtml(const ServerStatus::Status& status) {
+  status.stsMx->lock();
   std::string html_string;
-
   html_string.append("<!DOCTYPE HTML>\n");
   html_string.append("<html>\n");
   html_string.append("<head>Status Page</head>");
@@ -74,6 +77,6 @@ std::string StatusHandler::StatusToHtml(const ServerStatus::Status& status) {
 
   html_string.append("</body>\n");
   html_string.append("</html>\n");
-
+  status.stsMx->unlock();
   return html_string;
 }
