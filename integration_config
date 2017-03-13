@@ -1,0 +1,25 @@
+port 2029;  # This is also a comment.
+
+path /serve StaticHandler {
+      root files_served/;
+}
+
+path /echo EchoHandler {}
+
+path /status StatusHandler {}
+
+path /proxy ProxyHandler {
+	host www.ucla.edu;
+	port 80;
+}
+
+path /cloud CloudFileHandler {
+	bucket	cs130-s3;
+}
+
+path /block BlockingHandler {}
+
+path /rsa RsaHandler {}
+
+# Default response handler if no handlers match.
+default NotFoundHandler {}
