@@ -1,4 +1,4 @@
-port 2020;  # This is also a comment.
+port 8080;  # This is also a comment.
 
 path /serve StaticHandler {
       root files_served/;
@@ -13,11 +13,14 @@ path /proxy ProxyHandler {
 	port 80;
 }
 
-path /cloud CloudFileHandler {
-	bucket	cs130-s3;
+path /markdown MarkdownHandler {
+    root files_served/;
 }
 
 path /block BlockingHandler {}
 
+path /cloud CloudFileHandler {
+        bucket  cs130-s3;
+}
 # Default response handler if no handlers match.
 default NotFoundHandler {}

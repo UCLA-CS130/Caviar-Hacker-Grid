@@ -28,9 +28,12 @@ def fail(msg):
 if __name__ == "__main__":
     print("Starting Integration Test.\n")
 
+    # create a temporary config file
+    temporaryConfig = open("integration_test_config", "w+")
+    temporaryConfig.write("port 2020;\n\npath /serve StaticHandler {\n\troot files_served/;\n}\n\npath /echo EchoHandler {}\n\npath /status StatusHandler {}\n\npath /proxy ProxyHandler {\n\thost www.ucla.edu;\n\tport 80;\n}\n\npath /cloud CloudFileHandler {\n\tbucket cs130-s3;\n}\n\npath /block BlockingHandler {}\n\n# Default response handler if no handlers match.\n# Default response handler if no handlers match.")
     ## Start Server ##
     outputToNull = open(os.devnull, 'w')
-    serverProcess = subprocess.Popen(['./webserver', 'test_config'], stdout=outputToNull)
+    serverProcess = subprocess.Popen(['./webserver', 'integration_test_config'], stdout=outputToNull)
     time.sleep(3)
 
 #####        
@@ -150,6 +153,7 @@ if __name__ == "__main__":
     
     ## Conclusion ##
     print("Passed all tests?\n" + str(passing) + '\n')
+    os.remove("integration_test_config")
     if passing:
         sys.exit(0)
         #return True
