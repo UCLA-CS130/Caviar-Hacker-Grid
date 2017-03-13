@@ -6,10 +6,12 @@
 
 ## Markdown -> HTML Rendering
 * This page is written in Markdown!
-* To see this page's raw text, [click here](http://richardm.in/CS130/serve/design_doc.md)
+* To see this page's raw text, [click here](http://richardm.in/CS130/serve/design_doc_markdown.md)
 
-
-
+## Design Decisions
+* Separate handler, because you may want to have both markdown served as HTML and raw (i.e. github has RAW setting)
+    * The other choice here was to make it an option, but would configure for the entire endpoint
+* Serve non-markdown files normally because otherwise lots of endpoint switching is involved
 
 ## Demo showing markdown features:
 
