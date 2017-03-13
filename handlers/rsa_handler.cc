@@ -16,9 +16,11 @@
 RequestHandler::Status RsaHandler::Init(const std::string& uri_prefix, const NginxConfig& config) {
   //Todo
   //  Generate p and q using random num generator
-  //    boost::random_device rd;
-  p = 11;
-  q = 13;
+  boost::random_device rd;
+  p = rd();
+  p = (p << 32) | rd();
+  q = rd();
+  q = (q << 32) | rd();
   n = p*q;
   t = (p-1)*(q-1);
   //Now we calculate e and d

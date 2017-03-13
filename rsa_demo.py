@@ -21,9 +21,9 @@ time.sleep(2)
 
 subprocess.Popen(['./webserver', 'rsa_test_config'])
 time.sleep(6)
-req = 'GET /rsa HTTP/1.1\r\nHost: localhost:2034\r\n\r\n'
+req = 'GET /rsa HTTP/1.1\r\nHost: localhost:2035\r\n\r\n'
 print("\nPlain Text:"+req)
 time.sleep(3)
 print("Encoded Text:\n")
-tn = telnetlib.Telnet('localhost', 2034)
+tn = telnetlib.Telnet('localhost', 2035)
 tn.write(req.encode('ascii'))
