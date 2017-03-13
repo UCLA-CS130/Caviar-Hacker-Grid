@@ -1,4 +1,5 @@
 language: cpp
+install: "pip install boto3"
 dist: trusty
 sudo: required
 script: 
