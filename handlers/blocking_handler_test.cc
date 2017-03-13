@@ -33,7 +33,7 @@ static void catch_alarm(int sig)
         ualarm(0, 0); \
         GTEST_FATAL_FAILURE_("less than " #usecs " seconds to respond for " #fn); \
     } else { \
-        true; \ 
+        true; \
     } }
 
 TEST(BlockHandlerTest, BasicTest) {

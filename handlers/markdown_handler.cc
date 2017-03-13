@@ -57,6 +57,6 @@ RequestHandler::Status MarkdownHandler::HandleRequest(const Request& request, Re
   else {
     response->SetBody(body);
   }
-
+  printf("%s\n", response->ToString().c_str());
   return OK;
 }

@@ -47,7 +47,7 @@ libgmock.a:
 	ar -rv libgmock.a gtest-all.o gmock-all.o
 
 %_test: %.cc %_test.cc libgtest.a libgmock.a
-	$(CXX) $(GTEST_FLAGS) $(GMOCK_FLAGS) -pthread $(UTIL_CLASSES) $@.cc $(GMOCK_DIR)/src/gmock_main.cc libgmock.a $(BOOST) -o $(@:%.cc=%)
+	$(CXX) $(GTEST_FLAGS) $(GMOCK_FLAGS) -pthread $(UTIL_CLASSES) markdown/markdown.cpp markdown/markdown-tokens.cpp $@.cc $(GMOCK_DIR)/src/gmock_main.cc libgmock.a $(BOOST) -o $(@:%.cc=%)
 
 
 gcov: test
