@@ -159,3 +159,6 @@ blocking_handler_test
 
 # vs code
 .vscode/
+
+#private information for S3
+S3/setup_note
