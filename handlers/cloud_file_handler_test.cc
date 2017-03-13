@@ -23,28 +23,28 @@ public:
 };
 
 
-TEST(CloudFileHandler, HandleRequestTexT){
-  MockNginxConfig mock_config;
-  std::vector<std::string> set_tokens;
-  set_tokens.push_back("bucket");
-  set_tokens.push_back("cs130-s3");
-  EXPECT_CALL(mock_config, mocked_find("bucket"))
-    .WillOnce(
-      Return(set_tokens)  
-    );  
-    CloudFileHandler handler;
-    RequestHandler::Status ret = handler.Init("/cloud", mock_config);
+// TEST(CloudFileHandler, HandleRequestTexT){
+//   MockNginxConfig mock_config;
+//   std::vector<std::string> set_tokens;
+//   set_tokens.push_back("bucket");
+//   set_tokens.push_back("cs130-s3");
+//   EXPECT_CALL(mock_config, mocked_find("bucket"))
+//     .WillOnce(
+//       Return(set_tokens)  
+//     );  
+//     CloudFileHandler handler;
+//     RequestHandler::Status ret = handler.Init("/cloud", mock_config);
     
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /cloud/testing.txt HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+//     EXPECT_EQ(ret, RequestHandler::OK);
+//     std::string raw_req = "GET /cloud/testing.txt HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
+//     auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+//     Response resp;
+//     auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::OK);
-    EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nG0 = 2T\nP0 = 2T");
-}
+//     EXPECT_EQ(handler_status,RequestHandler::OK);
+//     EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nG0 = 2T\nP0 = 2T");
+// }
 
 TEST(CloudFileHandler, HandleRequestNotFound){
   MockNginxConfig mock_config;
