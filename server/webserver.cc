@@ -122,6 +122,7 @@ bool WebServer::Init() {
 
 //Modeled after team AAAA's class example and this stack overflow page:
 bool WebServer::run_server() {
+  printf("Starting Server...");
   try {
     boost::asio::io_service io_service;
     Server s(io_service, port_, &HandlerMapping_, &status_);

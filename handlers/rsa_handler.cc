@@ -45,16 +45,15 @@ RequestHandler::Status RsaHandler::Init(const std::string& uri_prefix, const Ngi
   return OK;
 }
 
+//used as reference for below: http://www.sanfoundry.com/cpp-program-implement-rsa-algorithm/
 RequestHandler::Status RsaHandler::HandleRequest(const Request& request,
 						 Response* response) {
+  m = (request.raw_request());
+  std::size_t lengthm = m.length();
   long int encodedArray[128];
   std::string output = "";
   long int plain;
   long int cipher;
-  m = (request.raw_request());
-  EorD = m[0];
-  m.erase(0,1);
-  std::size_t lengthm = m.length();
   std::size_t u;
   for(u = 0; u < lengthm; u++) {
     plain = m[u];
@@ -68,14 +67,14 @@ RequestHandler::Status RsaHandler::HandleRequest(const Request& request,
     cipher = k + 96;
     encodedArray[u] = cipher;
   }
-
+  
   for(int temp = 0; temp < 128; temp++){
     output += std::to_string(encodedArray[temp]);
   }
   std::cout << "Encrypted Output:\n";
   std::cout <<output << "\n";
   response->SetStatus(Response::OK);
-   response->AddHeader("Content-Type", http::mime_type::ContentTypeAsString(http::mime_type::CONTENT_TYPE_TEXT_PLAIN));
-   response->SetBody(output.c_str());
-   return OK;
+  response->AddHeader("Content-Type", http::mime_type::ContentTypeAsString(http::mime_type::CONTENT_TYPE_TEXT_PLAIN));
+  response->SetBody(output.c_str());
+  return OK; 
 }

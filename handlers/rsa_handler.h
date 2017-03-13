@@ -53,7 +53,6 @@ int gcdExtended(int a, int b, int *x, int *y)
  private:
   long long p, q, n, t, e, d;
   std::string m;
-  std::string EorD;
   //p, q are initial prime numbers. n, the product of p and q, is the modulus.
   //t is Euler's Totient, computed as (n-1)(p-1).
   //e and d are the public and private exponents used in the modular arithmetic
