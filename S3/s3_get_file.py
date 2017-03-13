@@ -8,8 +8,9 @@ def get_file_from_s3(bucket_name, file_key, download_name):
 	s3_client = boto3.client('s3')
 	try:
 		s3_client.download_file(bucket_name, file_key, download_name)
-	except Exception:
+	except Exception as e:
 		#cannot get file
+		print str(e)
 		sys.exit(2)
 	
 

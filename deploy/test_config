@@ -13,6 +13,10 @@ path /proxy ProxyHandler {
 	port 80;
 }
 
+path /cloud CloudFileHandler {
+	bucket	cs130-s3;
+}
+
 path /markdown MarkdownHandler {
     root files_served/;
 }
