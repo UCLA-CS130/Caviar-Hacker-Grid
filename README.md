@@ -63,6 +63,8 @@ Currently, the supported handlers are:
       * root <path_to_files_to_serve>
         * Note that the path is relative to the location served from.
         * This means you can take advantage of relative directories. 
+* MarkdownHandler
+  * Same options as StaticHandler
 * CloudFileHandler
   * Mandatory:
       * bucket bucket_name
