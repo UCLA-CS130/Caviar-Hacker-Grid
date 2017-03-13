@@ -22,7 +22,7 @@ public:
   MOCK_CONST_METHOD1(mocked_find,std::vector<std::string>(const std::string& key));
 };
 
-
+//This in commented out because for some reason pip install boto3 didn't work on Travis build
 // TEST(CloudFileHandler, HandleRequestTexT){
 //   MockNginxConfig mock_config;
 //   std::vector<std::string> set_tokens;

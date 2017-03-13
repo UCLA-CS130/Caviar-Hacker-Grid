@@ -3,10 +3,9 @@
 import sys
 import boto3
 from optparse import OptionParser
-ACCESS_KEY = "AKIAI3OWYQBREX3NSAHQ"
-SECRET_KEY = "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"
+
 def get_file_from_s3(bucket_name, file_key, download_name):
-	s3_client = boto3.client('s3',aws_access_key_id = ACCESS_KEY, aws_secret_access_key= SECRET_KEY)
+	s3_client = boto3.client('s3')
 	try:
 		s3_client.download_file(bucket_name, file_key, download_name)
 	except Exception:
