@@ -63,6 +63,11 @@ Currently, the supported handlers are:
       * root <path_to_files_to_serve>
         * Note that the path is relative to the location served from.
         * This means you can take advantage of relative directories. 
+* CloudFileHandler
+  * Mandatory:
+      * bucket bucket_name
+      * This handler serves file from AWS S3 storage. Needs to configure the policy of the S3 bucket to allow access
+      * python and the package boto3 are required
 
 
 # Layout
