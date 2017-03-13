@@ -18,14 +18,14 @@ RequestHandler::Status StatusHandler::HandleRequest(const Request& request,
   if (status_ == nullptr) {
     return RequestHandler::MISCONFIGURED_HANDLER;
   }
+  //status_->Status_.stsMx->lock();
 
   ServerStatus::Status status = status_->GetStatus();
-
-  status.stsMx->lock();
   response->SetStatus(Response::OK);
   response->AddHeader("Content-Type", http::mime_type::ContentTypeAsString(http::mime_type::CONTENT_TYPE_TEXT_HTML));
   response->SetBody(StatusToHtml(status));
-  status.stsMx->unlock();
+
+  //status_->Status_.stsMx->unlock();
   return OK;
 }
 
