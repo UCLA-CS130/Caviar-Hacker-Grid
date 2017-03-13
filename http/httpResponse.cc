@@ -4,8 +4,12 @@ void Response::SetStatus(const ResponseCode response_code){
   this->status_code_ = response_code;
   this->reason_phrase_ = http::reason_phrase::getDefault(static_cast<int>(response_code));
 }
-int Response::GetStatus() {
+int Response::GetStatus() const {
   return static_cast<int>(this->status_code_);
+}
+
+std::string Response::GetBody() const {
+  return this->body_;
 }
 
 void Response::AddHeader(const std::string& header_name, const std::string& header_value){

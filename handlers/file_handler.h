@@ -38,7 +38,7 @@ public:
   std::string getRoot(){
     return this->m_root_path_;
   }
-private:
+protected:
   std::string m_uri_prefix_;
   std::string m_root_path_;
   NotFoundHandler NotFoundHandler_;
