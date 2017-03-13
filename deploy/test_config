@@ -13,6 +13,10 @@ path /proxy ProxyHandler {
 	port 80;
 }
 
+path /markdown MarkdownHandler {
+    root files_served/;
+}
+
 path /block BlockingHandler {}
 
 # Default response handler if no handlers match.
