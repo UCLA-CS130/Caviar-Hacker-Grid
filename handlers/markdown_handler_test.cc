@@ -32,18 +32,18 @@ TEST(MarkdownHandlerTest, HandleRequestText){
     .WillOnce(
       Return(set_tokens)  
     );  
-    StaticHandler handler;
-    RequestHandler::Status ret = handler.Init("/static1", mock_config);
-    
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /static1/text_file.txt HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+  MarkdownHandler handler;
+  RequestHandler::Status ret = handler.Init("/static1", mock_config);
+  
+  EXPECT_EQ(ret, RequestHandler::OK);
+  std::string raw_req = "GET /static1/text_file.txt HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
+  auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+  Response resp;
+  auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::OK);
-    EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n# Caviar-Hacker-Grid\nCS130 Winter 2017 Webserver Project\n");
+  EXPECT_EQ(handler_status,RequestHandler::OK);
+  EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n# Caviar-Hacker-Grid\nCS130 Winter 2017 Webserver Project\n");
 }
 
 TEST(MarkdownHandlerTest, HandleRequestJPG){
@@ -55,18 +55,18 @@ TEST(MarkdownHandlerTest, HandleRequestJPG){
     .WillOnce(
       Return(set_tokens)  
     );  
-    StaticHandler handler;
-    RequestHandler::Status ret = handler.Init("/stat", mock_config);
-    
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /stat/jpg_file.jpg HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+  MarkdownHandler handler;
+  RequestHandler::Status ret = handler.Init("/stat", mock_config);
+  
+  EXPECT_EQ(ret, RequestHandler::OK);
+  std::string raw_req = "GET /stat/jpg_file.jpg HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
+  auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+  Response resp;
+  auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::OK);
-    EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\n\r\n# Caviar-Hacker-Grid\nCS130 This is an image");
+  EXPECT_EQ(handler_status,RequestHandler::OK);
+  EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\n\r\n# Caviar-Hacker-Grid\nCS130 This is an image");
 }
 
 TEST(MarkdownHandlerTest, WrongPrefixPos){
@@ -78,17 +78,17 @@ TEST(MarkdownHandlerTest, WrongPrefixPos){
     .WillOnce(
       Return(set_tokens)  
     );  
-    StaticHandler handler;
-    RequestHandler::Status ret = handler.Init("/stat", mock_config);
-    
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /jpg_file.jpg/stat HTTP/1.1\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+  MarkdownHandler handler;
+  RequestHandler::Status ret = handler.Init("/stat", mock_config);
+  
+  EXPECT_EQ(ret, RequestHandler::OK);
+  std::string raw_req = "GET /jpg_file.jpg/stat HTTP/1.1\r\nContent-Length: length\r\n\r\n";
+  auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+  Response resp;
+  auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::BAD_REQUEST);
+  EXPECT_EQ(handler_status,RequestHandler::BAD_REQUEST);
 }
 
 TEST(MarkdownHandlerTest, NoPrefix){
@@ -100,19 +100,19 @@ TEST(MarkdownHandlerTest, NoPrefix){
     .WillOnce(
       Return(set_tokens)  
     );  
-    StaticHandler handler;
-    RequestHandler::Status ret = handler.Init("/stat", mock_config);
-    
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /jpg_file.jpg HTTP/1.1\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+  MarkdownHandler handler;
+  RequestHandler::Status ret = handler.Init("/stat", mock_config);
+  
+  EXPECT_EQ(ret, RequestHandler::OK);
+  std::string raw_req = "GET /jpg_file.jpg HTTP/1.1\r\nContent-Length: length\r\n\r\n";
+  auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+  Response resp;
+  auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::BAD_REQUEST);
+  EXPECT_EQ(handler_status,RequestHandler::BAD_REQUEST);
 
-    EXPECT_EQ(resp.ToString(),"HTTP/1.1 400 Bad Request\r\nContent-Type: text/html\r\n\r\n");
+  EXPECT_EQ(resp.ToString(),"HTTP/1.1 400 Bad Request\r\nContent-Type: text/html\r\n\r\n");
 }
 
 TEST(MarkdownHandlerTest, NotFound){
@@ -124,18 +124,18 @@ TEST(MarkdownHandlerTest, NotFound){
     .WillOnce(
       Return(set_tokens)  
     );  
-    StaticHandler handler;
-    RequestHandler::Status ret = handler.Init("/static1", mock_config);
-    
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /static1/text_f.txt HTTP/1.1\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+  MarkdownHandler handler;
+  RequestHandler::Status ret = handler.Init("/static1", mock_config);
+  
+  EXPECT_EQ(ret, RequestHandler::OK);
+  std::string raw_req = "GET /static1/text_f.txt HTTP/1.1\r\nContent-Length: length\r\n\r\n";
+  auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+  Response resp;
+  auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::FILE_NOT_FOUND);
-    EXPECT_EQ(resp.ToString(),"HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n");
+  EXPECT_EQ(handler_status,RequestHandler::FILE_NOT_FOUND);
+  EXPECT_EQ(resp.ToString(),"HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n");
 }
 
 
@@ -150,16 +150,16 @@ TEST(MarkdownHandlerTest, HandleRequestMarkdown){
     .WillOnce(
       Return(set_tokens)  
     );  
-    StaticHandler handler;
-    RequestHandler::Status ret = handler.Init("/static1", mock_config);
-    
-    EXPECT_EQ(ret, RequestHandler::OK);
-    std::string raw_req = "GET /static1/README.md HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
-    auto req = Request::Parse(raw_req);
+  MarkdownHandler handler;
+  RequestHandler::Status ret = handler.Init("/static1", mock_config);
+  
+  EXPECT_EQ(ret, RequestHandler::OK);
+  std::string raw_req = "GET /static1/README.md HTTP/1.1\r\nAccept-Languages: en-us\r\nAccept-Encoding: gzip, deflate\r\nContent-Length: length\r\n\r\n";
+  auto req = Request::Parse(raw_req);
 
-    Response resp;
-    auto handler_status = handler.HandleRequest(*req,&resp);
+  Response resp;
+  auto handler_status = handler.HandleRequest(*req,&resp);
 
-    EXPECT_EQ(handler_status,RequestHandler::OK);
-    EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: html\r\n\r\n<p><a href=\"https://travis-ci.org/UCLA-CS130/Caviar-Hacker-Grid.svg?branch=master\">![Build Status</a>](https://travis-ci.org/UCLA-CS130/Caviar-Hacker-Grid)</p>\n\n<h1>Caviar-Hacker-Grid</h1>\n<p>CS130 Winter 2017 Webserver Project</p>\n\n<p>Commands are to be run from the base Caviar-Hacker-Grid directory.</p>\n\n<h1>Installation</h1>\n<p>You must clone the repository recursively. <code>` git clone --recursive https://github.com/UCLA-CS130/Caviar-Hacker-Grid.git `</code></p>\n\n<p>To run the server, cd into the directory and run  <code>`make &amp;&amp; ./webserver test_config`</code></p>\n");
+  EXPECT_EQ(handler_status,RequestHandler::OK);
+  EXPECT_EQ(resp.ToString(),"HTTP/1.1 200 OK\r\nContent-Type: html\r\n\r\n<p><a href=\"https://travis-ci.org/UCLA-CS130/Caviar-Hacker-Grid.svg?branch=master\">![Build Status</a>](https://travis-ci.org/UCLA-CS130/Caviar-Hacker-Grid)</p>\n\n<h1>Caviar-Hacker-Grid</h1>\n<p>CS130 Winter 2017 Webserver Project</p>\n\n<p>Commands are to be run from the base Caviar-Hacker-Grid directory.</p>\n\n<h1>Installation</h1>\n<p>You must clone the repository recursively. <code>` git clone --recursive https://github.com/UCLA-CS130/Caviar-Hacker-Grid.git `</code></p>\n\n<p>To run the server, cd into the directory and run  <code>`make &amp;&amp; ./webserver test_config`</code></p>\n");
 }
