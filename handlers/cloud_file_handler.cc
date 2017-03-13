@@ -82,7 +82,12 @@ RequestHandler::Status CloudFileHandler::HandleRequest(const Request& request, R
   }
   //clean up
   std::string clean_up_cmd = "rm "+ download_name;
-  system(clean_up_cmd.c_str());
+  int ret2 = system(clean_up_cmd.c_str());
+
+  if(ret2 !=0 ){
+    printf("CloudFileHandler.HandleRequest: Error cleaning up downloaded file\n");
+
+  }
 
   return OK;
   
