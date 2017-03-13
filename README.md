@@ -65,6 +65,11 @@ Currently, the supported handlers are:
         * This means you can take advantage of relative directories. 
 * MarkdownHandler
   * Same options as StaticHandler
+* CloudFileHandler
+  * Mandatory:
+      * bucket bucket_name
+      * This handler serves file from AWS S3 storage. Needs to configure the policy of the S3 bucket to allow access
+      * python and the package boto3 are required
 
 
 # Layout

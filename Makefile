@@ -5,9 +5,12 @@ GTEST_DIR=googletest/googletest
 GMOCK_DIR=googletest/googlemock
 GTEST_FLAGS=-std=c++11 -isystem $(GTEST_DIR)/include 
 GMOCK_FLAGS=-isystem $(GMOCK_DIR)/include
+
 CXXFLAGS= -g $(CXXOPTIMIZE) -Wall -Werror -static-libgcc -static-libstdc++ -pthread -Wl,-Bstatic -pedantic -std=c++11 $(BOOST)
-CLASSES=nginx-configparser/config_parser server/server server/webserver http/httpRequest http/httpMutableRequest http/httpResponse http/http filesystem/file_opener handlers/file_handler handlers/echo_handler handlers/request_handler handlers/not_found_handler handlers/status_handler handlers/proxy_handler handlers/blocking_handler handlers/markdown_handler
+CLASSES=nginx-configparser/config_parser server/server server/webserver http/httpRequest http/httpMutableRequest http/httpResponse http/http filesystem/file_opener handlers/file_handler handlers/echo_handler handlers/request_handler handlers/not_found_handler handlers/status_handler handlers/proxy_handler handlers/blocking_handler handlers/markdown_handler handlers/cloud_file_handler
+
 GCOV=config_parser.cc server.cc webserver.cc httpRequest.cc httpMutableRequest.cc http.cc httpResponse.cc file_opener.cc file_handler.cc echo_handler.cc request_handler.cc not_found_handler.cc status_handler.cc proxy_handler.cc blocking_handler.cc 
+
 UTIL_CLASSES=$(CLASSES:=.cc)
 TESTS=$(CLASSES:=_test)
 
