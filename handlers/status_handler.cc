@@ -1,6 +1,7 @@
 #include "status_handler.h"
 
 #include <string>
+#include <mutex>
 
 #include "../http/httpRequest.h"
 #include "../http/httpResponse.h"
@@ -18,13 +19,14 @@ RequestHandler::Status StatusHandler::HandleRequest(const Request& request,
   if (status_ == nullptr) {
     return RequestHandler::MISCONFIGURED_HANDLER;
   }
-
+  status_->statusLock.lock();
   ServerStatus::Status status = status_->GetStatus();
 
 
   response->SetStatus(Response::OK);
   response->AddHeader("Content-Type", http::mime_type::ContentTypeAsString(http::mime_type::CONTENT_TYPE_TEXT_HTML));
   response->SetBody(StatusToHtml(status));
+  status_->statusLock.unlock();
   return OK;
 }
 
@@ -33,7 +35,9 @@ RequestHandler::Status StatusHandler::InitStatus(ServerStatus* status) {
   if (status == nullptr) {
     return RequestHandler::MISCONFIGURED_HANDLER;
   }
+  status_->statusLock.lock();
   status_ = status;
+  status_->statusLock.unlock();
   return OK;
 }
 
@@ -41,7 +45,7 @@ RequestHandler::Status StatusHandler::InitStatus(ServerStatus* status) {
 
 std::string StatusHandler::StatusToHtml(const ServerStatus::Status& status) {
   std::string html_string;
-
+  status_->statusLock.lock();
   html_string.append("<!DOCTYPE HTML>\n");
   html_string.append("<html>\n");
   html_string.append("<head>Status Page</head>");
@@ -74,6 +78,6 @@ std::string StatusHandler::StatusToHtml(const ServerStatus::Status& status) {
 
   html_string.append("</body>\n");
   html_string.append("</html>\n");
-
+  status_->statusLock.unlock();
   return html_string;
 }
